@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Video Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            background: #111;
+            color: #fff;
+            padding: 1rem;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: #000;
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .details {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hidden-section {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* hidden initially */
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 30px;
+            background: #111;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .details,
+            .hidden-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Exclusive Video Presentation</h1>
+    </header>
+
+    <!-- Video Section -->
+    <div class="video-container">
+        <video id="mainVideo" autoplay controls>
+      <source src"go/Bom.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+    </div>
+
+    <!-- Details Section -->
+    <div class="details">
+        <h2>Video Details</h2>
+        <p>
+            This is where you can provide information about the video, its background, speaker details, and important notes for the viewer.
+        </p>
+    </div>
+
+    <!-- Hidden Section (Payment details, etc.) -->
+    <div class="hidden-section" id="paymentSection">
+        <h2>Payment & More Information</h2>
+        <p>Here you can place additional links, extended resources, and your payment details.</p>
+        <ul>
+            <li><a href="#">Resource Link 1</a></li>
+            <li><a href="#">Resource Link 2</a></li>
+            <li><a href="#">Resource Link 3</a></li>
+        </ul>
+        <h3>Payment Details</h3>
+        <p>Bank Name: XYZ Bank</p>
+        <p>Account Number: 123456789</p>
+        <p>Account Name: Your Business</p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Your Company Name</p>
+    </div>
+
+    <script>
+        // Wait until video starts playing, then set timer
+        const video = document.getElementById("mainVideo");
+        const paymentSection = document.getElementById("paymentSection");
+
+        video.addEventListener("play", function() {
+            setTimeout(() => {
+                paymentSection.style.display = "block";
+            }, 0.5 * 60 * 1000); // 30 minutes in milliseconds
+        }, {
+            once: true
+        });
+    </script>
+
+</body>
+
+</html>
