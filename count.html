@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>10s Countdown — Redirect</title>
+    <style>
+         :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --accent: #7dd3fc;
+            --muted: #94a3b8;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial
+        }
+        
+        body {
+            background: linear-gradient(180deg, var(--bg), #081022);
+            color: #e6eef8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem
+        }
+        
+        .card {
+            width: min(720px, 96vw);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: 14px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+            display: grid;
+            gap: 1rem;
+            align-items: center;
+            grid-template-columns: 1fr auto;
+        }
+        
+        .title {
+            font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+            margin: 0
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            font-size: clamp(.9rem, 1.8vw, .95rem);
+            margin: 0
+        }
+        
+        .count {
+            font-weight: 700;
+            font-size: clamp(2.25rem, 6vw, 3.6rem);
+            text-align: right;
+            min-width: 6rem
+        }
+        
+        .controls {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap
+        }
+        
+        button {
+            appearance: none;
+            border: 0;
+            background: transparent;
+            color: var(--accent);
+            padding: .5rem .75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600
+        }
+        
+        button.secondary {
+            color: var(--muted)
+        }
+        
+        .progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: .5rem
+        }
+        
+        .bar {
+            height: 6px;
+            width: 100%;
+            transform-origin: left;
+            transform: scaleX(1);
+            transition: transform 0.2s linear;
+            background: linear-gradient(90deg, var(--accent), #60a5fa)
+        }
+        
+        @media (max-width:540px) {
+            .card {
+                grid-template-columns: 1fr
+            }
+            .count {
+                text-align: left
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card" role="main" aria-labelledby="countdownTitle">
+        <div>
+            <h1 id="countdownTitle" class="title">The Session will begin in the next</h1>
+            <p class="subtitle">This page will automatically load a new page when the countdown ends.</p>
+            <div class="progress" aria-hidden="true">
+                <div class="bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top:.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+                <div>
+                    <p style="margin:0;color:var(--muted);font-size:.95rem">Target URL</p>
+                    <p id="targetUrlText" style="margin:0;word-break:break-all">https://example.com</p>
+                </div>
+                <div class="controls">
+                    <button id="skipBtn">Go now</button>
+                    <button id="cancelBtn" class="secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:center">
+            <div class="count" aria-live="polite" id="countDisplay">10</div>
+            <p class="subtitle" style="margin-top:.25rem">seconds remaining</p>
+        </div>
+    </main>
+
+    <script>
+        // Configuration: change this to the page you want to load after countdown
+        const targetUrl = 'https://wealthysummit.github.io/DiamondProject/livesession.html';
+        const totalSeconds = 30; // starting countdown value
+
+        // --- DOM refs ---
+        const countDisplay = document.getElementById('countDisplay');
+        const progressBar = document.getElementById('progressBar');
+        const skipBtn = document.getElementById('skipBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const targetUrlText = document.getElementById('targetUrlText');
+
+        targetUrlText.textContent = targetUrl;
+
+        // State
+        let remaining = totalSeconds;
+        let startedAt = Date.now();
+        let cancelled = false;
+
+        // Update UI once per 100ms for smoother progress bar
+        function updateUI() {
+            const elapsed = (Date.now() - startedAt) / 1000; // seconds
+            const rem = Math.max(0, totalSeconds - elapsed);
+            remaining = Math.ceil(rem);
+            countDisplay.textContent = remaining;
+            // progress scale from 1 -> 0
+            const ratio = Math.max(0, Math.min(1, rem / totalSeconds));
+            progressBar.style.transform = 'scaleX(' + ratio + ')';
+        }
+
+        // Redirect when countdown finishes
+        function finishRedirect() {
+            if (cancelled) return;
+            // Use location.replace to avoid adding an entry in history (optional)
+            window.location.href = targetUrl;
+        }
+
+        // Start timer
+        startedAt = Date.now();
+        updateUI();
+        const ticker = setInterval(() => {
+            updateUI();
+            const elapsed = (Date.now() - startedAt) / 1000;
+            if (elapsed >= totalSeconds) {
+                clearInterval(ticker);
+                finishRedirect();
+            }
+        }, 100);
+
+        // Buttons
+        skipBtn.addEventListener('click', () => {
+            clearInterval(ticker);
+            finishRedirect();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            cancelled = true;
+            clearInterval(ticker);
+            countDisplay.textContent = 'Canceled';
+            progressBar.style.transform = 'scaleX(0)';
+        });
+
+        // Accessibility: if JS is disabled, provide a fallback message
+        // (This paragraph will only show when JS is off; with JS enabled it's removed.)
+        document.documentElement.classList.remove('no-js');
+    </script>
+
+    <noscript>
+    <style> .card{opacity:.95} </style>
+    <div style="position:fixed;inset:1rem;padding:1rem;background:#111827;color:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.6);">
+      JavaScript is required for the automatic redirect. You can <a href="https://example.com" style="color:var(--accent)">click here</a> to continue.
+    </div>
+  </noscript>
+</body>
+
+</html>
