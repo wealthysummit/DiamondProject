@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>End-of-Year Business Presentation | Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: url(go/bgng.jpg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            padding: 40px 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+        }
+        
+        .details {
+            background: #fff;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .details h2 {
+            margin-top: 0;
+            color: #2c5364;
+        }
+        
+        .details ul {
+            padding-left: 20px;
+        }
+        
+        .details li {
+            margin-bottom: 10px;
+        }
+        
+        .form-section {
+            background: #fff;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-section h2 {
+            margin-top: 0;
+            color: #2c5364;
+        }
+        
+        form {
+            display: grid;
+            gap: 15px;
+        }
+        
+        input,
+        select,
+        button {
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        button {
+            background: #2c5364;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        button:hover {
+            background: #203a43;
+        }
+        
+        .footer {
+            text-align: center;
+            margin: 30px 0 10px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>End-of-Year Super Summit</h1>
+            <p>Review the Year • Discover New Opportunities • Plan for Greater Success</p>
+        </div>
+
+        <div class="details">
+            <h2>Event Details</h2>
+            <ul>
+                <li><strong>Date:</strong> 31 December 2025</li>
+                <li><strong>Time:</strong> 4:00pm Lagos time</li>
+                <li><strong>Venue:</strong> Live on Zoom</li>
+                <li><strong>Who Should Attend:</strong> Business partners, prospects, and entrepreneurs</li>
+            </ul>
+            <p>
+                Join us as we review our achievements, share insights, and present exciting plans for the coming year.
+            </p>
+        </div>
+
+        <div class="form-section">
+            <h2>Register to Attend</h2>
+            <form id="registrationForm">
+                <input type="text" name="fullname" placeholder="Full Name" required />
+                <input type="email" name="email" placeholder="Email Address" required />
+                <input type="tel" name="phone" placeholder="Phone Number" required />
+                <select name="attendance" required>
+          <option value="">How will you attend?</option>
+          <!-- <option value="Physical">Physical Attendance</option> -->
+          <option value="Online">Online Attendance</option>
+        </select>
+                <button type="submit">Register Now</button>
+            </form>
+            <p id="successMessage" style="display:none; color: green; margin-top: 15px;">
+                ✅ Thank you for registering! We will contact you with further details.
+            </p>
+        </div>
+
+        <div class="footer">
+            © 2025 | End-of-Year Super Summit
+        </div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Here you can connect to a backend, Google Form, or email service
+            // For now, it just shows a success message
+            form.reset();
+            successMessage.style.display = 'block';
+        });
+    </script>
+
+</body>
+
+</html>
