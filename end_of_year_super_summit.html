@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>End-of-Year Business Presentation | Registration</title>
+    <title>End_of_year Super_Summit | Registration</title>
     <style>
         body {
             margin: 0;
@@ -163,13 +163,27 @@
         const form = document.getElementById('registrationForm');
         const successMessage = document.getElementById('successMessage');
 
+        // 🔗 REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyryla4bXeBF7uZUeA0VFdHwjmEUofgL_1Ju4N7SuV4wBNGLWXnB0PgYipENgV5SOgmTw/exec";
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Here you can connect to a backend, Google Form, or email service
-            // For now, it just shows a success message
-            form.reset();
-            successMessage.style.display = 'block';
+            const formData = new FormData(form);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    form.reset();
+                    successMessage.style.display = 'block';
+                })
+                .catch(error => {
+                    alert('There was an error submitting the form. Please try again.');
+                    console.error(error);
+                });
         });
     </script>
 
